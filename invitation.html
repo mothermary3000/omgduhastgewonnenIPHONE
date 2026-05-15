@@ -160,6 +160,63 @@
       background-size: 200% auto;
     }
 
+    /* ---- Text block ---- */
+    .text-block {
+      background: rgba(255,255,255,0.75);
+      border-radius: 1.5rem;
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 30px rgba(180,180,180,0.15), 0 0 0 1.5px rgba(200,200,200,0.4);
+      backdrop-filter: blur(6px);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #444;
+    }
+
+    /* ---- RSVP card ---- */
+    .rsvp-card {
+      background: rgba(255,255,255,0.88);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 4px 30px rgba(180,180,180,0.2), 0 0 0 1.5px rgba(200,200,200,0.5);
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .rsvp-card h2 {
+      font-size: 1.2rem;
+      color: #c0824a;
+      margin-bottom: 1.2rem;
+    }
+
+    .rsvp-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid #f0ece4;
+      font-size: 1rem;
+      color: #444;
+    }
+    .rsvp-option:last-child { border-bottom: none; }
+
+    .rsvp-option input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: #c0824a;
+      flex-shrink: 0;
+    }
+
+    .rsvp-deadline {
+      font-size: 0.82rem;
+      color: #bbb;
+      margin-top: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .rsvp-deadline strong { color: #c0824a; }
+
     /* ---- Footer ---- */
     footer {
       text-align: center;
@@ -207,10 +264,38 @@
         <div class="detail-icon">&#128248;</div>
         <div>
           <div class="detail-label">Dresscode</div>
-          <div class="detail-value">folgt</div>
+          <div class="detail-value">Trage nichts als ein Lächeln</div>
         </div>
       </div>
 
+    </div>
+
+    <div class="text-block">
+      Das wollen wir mit dir im Hause Gottes feiern. Das Fest ist von Samstag bis Sonntag &mdash; du kannst aber auch gerne schon am Freitag anreisen.<br><br>
+      Im Haus gibt es 30 Schlafplätze in verschiedenen Konstellationen, man kann aber auch super zelten und im Auto schlafen.<br><br>
+      Alle weiteren Infos kommen etwas zeitiger vor dem Fest &mdash; für die Planung ist erstmal wichtig, wer dabei ist. Aber ihr kennt uns: es wird witzig.
+    </div>
+
+    <div class="rsvp-card">
+      <h2>Bist du dabei?</h2>
+
+      <div class="rsvp-option">
+        <input type="checkbox" id="komme">
+        <label for="komme">Ja, ich bin dabei!</label>
+      </div>
+      <div class="rsvp-option">
+        <input type="checkbox" id="schlafplatz">
+        <label for="schlafplatz">Ich brauche einen Schlafplatz</label>
+      </div>
+      <div class="rsvp-option">
+        <input type="checkbox" id="kommenicht">
+        <label for="kommenicht">Ich kann leider nicht kommen</label>
+      </div>
+
+      <p class="rsvp-deadline">
+        Sag uns bis zum <strong>01. Juli</strong> Bescheid.<br>
+        Kinder, Alte und Leute die das besonders brauchen haben beim Schlafplatz natürlich Vorrang.
+      </p>
     </div>
 
     <div class="divider"></div>
