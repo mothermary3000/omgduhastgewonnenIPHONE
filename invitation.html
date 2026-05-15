@@ -200,13 +200,47 @@
     }
     .rsvp-option:last-child { border-bottom: none; }
 
-    .rsvp-option input[type="checkbox"] {
+    .rsvp-option input[type="radio"] {
       width: 18px;
       height: 18px;
       margin-top: 2px;
       accent-color: #c0824a;
       flex-shrink: 0;
     }
+
+    .name-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #e0dbd4;
+      border-radius: 0.8rem;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 1rem;
+      color: #444;
+      background: #fdfaf6;
+      margin-bottom: 1.2rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .name-field:focus { border-color: #c0824a; }
+    .name-field::placeholder { color: #ccc; }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 1.4rem;
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(135deg, #c0824a, #e0a870);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(192,130,74,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .submit-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192,130,74,0.45); }
+    .submit-btn:active { transform: translateY(0); }
 
     .rsvp-deadline {
       font-size: 0.82rem;
@@ -279,23 +313,35 @@
     <div class="rsvp-card">
       <h2>Bist du dabei?</h2>
 
-      <div class="rsvp-option">
-        <input type="checkbox" id="komme">
-        <label for="komme">Ja, ich bin dabei!</label>
-      </div>
-      <div class="rsvp-option">
-        <input type="checkbox" id="schlafplatz">
-        <label for="schlafplatz">Ich brauche einen Schlafplatz</label>
-      </div>
-      <div class="rsvp-option">
-        <input type="checkbox" id="kommenicht">
-        <label for="kommenicht">Ich kann leider nicht kommen</label>
-      </div>
+      <form name="rsvp" method="POST" data-netlify="true" action="/danke.html">
+        <input type="hidden" name="form-name" value="rsvp">
 
-      <p class="rsvp-deadline">
-        Sag uns bis zum <strong>01. Juli</strong> Bescheid.<br>
-        Kinder, Alte und Leute die das besonders brauchen haben beim Schlafplatz natürlich Vorrang.
-      </p>
+        <input class="name-field" type="text" name="name" placeholder="Dein Name" required>
+
+        <div class="rsvp-option">
+          <input type="radio" name="antwort" id="dabei" value="Ja, ich bin dabei!" required>
+          <label for="dabei">Ja, ich bin dabei!</label>
+        </div>
+        <div class="rsvp-option">
+          <input type="radio" name="antwort" id="dabei-schlafplatz" value="Ich bin dabei und brauche einen Schlafplatz">
+          <label for="dabei-schlafplatz">Ich bin dabei und brauche einen Schlafplatz</label>
+        </div>
+        <div class="rsvp-option">
+          <input type="radio" name="antwort" id="dabei-schlafplatz-gerne" value="Ich bin dabei und möchte wenn's geht einen Schlafplatz">
+          <label for="dabei-schlafplatz-gerne">Ich bin dabei und möchte wenn's geht einen Schlafplatz</label>
+        </div>
+        <div class="rsvp-option">
+          <input type="radio" name="antwort" id="nicht" value="Ich kann leider nicht kommen">
+          <label for="nicht">Ich kann leider nicht kommen</label>
+        </div>
+
+        <p class="rsvp-deadline">
+          Sag uns bis zum <strong>01. Juli</strong> Bescheid.<br>
+          Kinder, Alte und Leute die das besonders brauchen haben beim Schlafplatz natürlich Vorrang.
+        </p>
+
+        <button class="submit-btn" type="submit">Abschicken</button>
+      </form>
     </div>
 
     <div class="divider"></div>
