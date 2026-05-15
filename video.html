@@ -34,6 +34,31 @@
       display: block;
     }
 
+    #playOverlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      cursor: pointer;
+    }
+
+    #playOverlay.visible { display: flex; }
+
+    .play-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #ff1493;
+      box-shadow: 0 0 40px rgba(255,255,255,0.5);
+    }
+
     .btn {
       display: none;
       padding: 1.2rem 2.5rem;
@@ -61,15 +86,31 @@
 </head>
 <body>
 
-  <div id="video-wrap">
-    <video id="vid" src="video.mp4" playsinline autoplay></video>
+  <div id="video-wrap" style="position:relative;">
+    <video id="vid" playsinline autoplay>
+      <source src="video.mp4" type="video/mp4">
+      <source src="video.mov" type="video/quicktime">
+    </video>
+    <div id="playOverlay">
+      <div class="play-circle">&#9654;</div>
+    </div>
   </div>
 
   <button class="btn" id="cta" onclick="window.location.href='invitation.html'">JETZT DEINEN PLATZ SICHERN</button>
 
   <script>
-    const vid = document.getElementById('vid');
-    const cta = document.getElementById('cta');
+    const vid     = document.getElementById('vid');
+    const cta     = document.getElementById('cta');
+    const overlay = document.getElementById('playOverlay');
+
+    vid.play().catch(() => {
+      overlay.classList.add('visible');
+    });
+
+    overlay.addEventListener('click', () => {
+      vid.play();
+      overlay.classList.remove('visible');
+    });
 
     vid.addEventListener('ended', () => {
       cta.style.display = 'inline-block';
