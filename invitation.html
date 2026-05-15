@@ -122,24 +122,31 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ---- Details card ---- */
-    .card {
-      background: rgba(255,255,255,0.92);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      border-top: 5px solid transparent;
-      border-image: linear-gradient(90deg, #00cfff, #a855f7) 1;
-      border-image-slice: 1;
-      box-shadow: 0 4px 30px rgba(0,200,255,0.15), 0 0 0 1px rgba(168,85,247,0.2);
-      margin-bottom: 1.5rem;
-      backdrop-filter: blur(8px);
+    /* ---- Shared shimmery baby pink background ---- */
+    @keyframes babyPinkShimmer {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
+
+    .card, .text-block, .rsvp-card {
+      background: linear-gradient(120deg, #ffe4ec 0%, #ffb3cc 25%, #ffc2d4 50%, #ffd6e7 75%, #ffe9f2 100%);
+      background-size: 300% 300%;
+      animation: babyPinkShimmer 6s ease infinite;
+      border-radius: 1.5rem;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 30px rgba(255,100,160,0.2), 0 0 0 1.5px rgba(255,150,190,0.4);
+    }
+
+    /* ---- Details card ---- */
+    .card { padding: 2rem; }
 
     .card-title {
       font-size: 0.72rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #a855f7;
+      color: #7d0038;
       margin-bottom: 1.4rem;
       font-weight: bold;
     }
@@ -149,7 +156,7 @@
       align-items: flex-start;
       gap: 1rem;
       padding: 0.9rem 0;
-      border-bottom: 1px solid #f0eeff;
+      border-bottom: 1px solid rgba(180,60,100,0.18);
     }
     .detail-row:last-child { border-bottom: none; padding-bottom: 0; }
 
@@ -165,63 +172,47 @@
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #00b4d8;
+      color: #7d0038;
       font-weight: bold;
       margin-bottom: 0.2rem;
     }
 
     .detail-value {
       font-size: 1.05rem;
-      color: #2d2d2d;
+      color: #1a0010;
       line-height: 1.5;
     }
 
-    .detail-value strong { color: #c026d3; }
+    .detail-value strong { color: #7d0038; }
 
     .detail-note {
       font-size: 0.85rem;
-      color: #888;
+      color: #7a3050;
       margin-top: 0.2rem;
     }
 
     /* ---- Divider ---- */
     .divider {
       height: 2px;
-      background: linear-gradient(90deg, transparent, #ff1493, #a855f7, #00cfff, transparent);
+      background: linear-gradient(90deg, transparent, #ff1493, #ffb3cc, #ff1493, transparent);
       border-radius: 1px;
       margin: 2rem 0;
     }
 
     /* ---- Text block ---- */
     .text-block {
-      background: rgba(255,255,255,0.9);
-      border-radius: 1.5rem;
       padding: 1.8rem 2rem;
-      margin-bottom: 1.5rem;
-      border-left: 5px solid #f59e0b;
-      box-shadow: 0 4px 30px rgba(245,158,11,0.15);
-      backdrop-filter: blur(6px);
       font-size: 1.05rem;
       line-height: 1.75;
-      color: #2d2d2d;
+      color: #1a0010;
     }
 
     /* ---- RSVP card ---- */
-    .rsvp-card {
-      background: rgba(255,255,255,0.92);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      border-top: 5px solid transparent;
-      border-image: linear-gradient(90deg, #ff1493, #ff69b4) 1;
-      border-image-slice: 1;
-      box-shadow: 0 4px 30px rgba(255,20,147,0.15), 0 0 0 1px rgba(255,105,180,0.2);
-      margin-bottom: 1.5rem;
-      backdrop-filter: blur(8px);
-    }
+    .rsvp-card { padding: 2rem; }
 
     .rsvp-card h2 {
       font-size: 1.2rem;
-      color: #ff1493;
+      color: #7d0038;
       margin-bottom: 1.2rem;
     }
 
@@ -230,9 +221,9 @@
       align-items: flex-start;
       gap: 0.8rem;
       padding: 0.7rem 0;
-      border-bottom: 1px solid #f0ece4;
+      border-bottom: 1px solid rgba(180,60,100,0.18);
       font-size: 1rem;
-      color: #444;
+      color: #1a0010;
     }
     .rsvp-option:last-child { border-bottom: none; }
 
@@ -240,25 +231,25 @@
       width: 18px;
       height: 18px;
       margin-top: 2px;
-      accent-color: #c0824a;
+      accent-color: #7d0038;
       flex-shrink: 0;
     }
 
     .name-field {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 1.5px solid #e0dbd4;
+      border: 1.5px solid rgba(180,60,100,0.35);
       border-radius: 0.8rem;
       font-family: 'Comic Sans MS', 'Comic Sans', cursive;
       font-size: 1rem;
-      color: #444;
-      background: #fdfaf6;
+      color: #1a0010;
+      background: rgba(255,255,255,0.55);
       margin-bottom: 1.2rem;
       outline: none;
       transition: border-color 0.2s;
     }
-    .name-field:focus { border-color: #c0824a; }
-    .name-field::placeholder { color: #ccc; }
+    .name-field:focus { border-color: #7d0038; }
+    .name-field::placeholder { color: #c07090; }
 
     .submit-btn {
       width: 100%;
@@ -270,22 +261,22 @@
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      background: linear-gradient(135deg, #c0824a, #e0a870);
+      background: linear-gradient(135deg, #9b0040, #e0205a);
       color: #fff;
-      box-shadow: 0 4px 18px rgba(192,130,74,0.35);
+      box-shadow: 0 4px 18px rgba(155,0,64,0.4);
       transition: transform 0.15s, box-shadow 0.15s;
     }
-    .submit-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192,130,74,0.45); }
+    .submit-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(155,0,64,0.55); }
     .submit-btn:active { transform: translateY(0); }
 
     .rsvp-deadline {
       font-size: 0.82rem;
-      color: #bbb;
+      color: #7a3050;
       margin-top: 1.2rem;
       line-height: 1.5;
     }
 
-    .rsvp-deadline strong { color: #c0824a; }
+    .rsvp-deadline strong { color: #7d0038; }
 
     /* ---- Footer ---- */
     footer {
@@ -314,6 +305,12 @@
     </div>
 
     <div class="divider"></div>
+
+    <div class="text-block">
+      Das wollen wir mit dir im Hause Gottes feiern. Das Fest ist von Samstag bis Sonntag &mdash; du kannst aber auch gerne schon am Freitag anreisen.<br><br>
+      Im Haus gibt es 30 Schlafplätze in verschiedenen Konstellationen, man kann aber auch super zelten und im Auto schlafen.<br><br>
+      Alle weiteren Infos kommen etwas zeitiger vor dem Fest &mdash; für die Planung ist erstmal wichtig, wer dabei ist. Aber ihr kennt uns: es wird witzig.
+    </div>
 
     <div class="card">
       <div class="card-title">Details</div>
@@ -344,12 +341,6 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="text-block">
-      Das wollen wir mit dir im Hause Gottes feiern. Das Fest ist von Samstag bis Sonntag &mdash; du kannst aber auch gerne schon am Freitag anreisen.<br><br>
-      Im Haus gibt es 30 Schlafplätze in verschiedenen Konstellationen, man kann aber auch super zelten und im Auto schlafen.<br><br>
-      Alle weiteren Infos kommen etwas zeitiger vor dem Fest &mdash; für die Planung ist erstmal wichtig, wer dabei ist. Aber ihr kennt uns: es wird witzig.
     </div>
 
     <div class="rsvp-card">
