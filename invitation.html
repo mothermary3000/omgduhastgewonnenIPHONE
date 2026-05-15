@@ -342,8 +342,14 @@
   <canvas id="discoCanvas"></canvas>
 
   <div id="kissOverlay">
-    <div class="kiss-emoji">💋</div>
-    <div class="kiss-thanks">Danke! Wir freuen uns auf dich!</div>
+    <div id="kissState">
+      <div class="kiss-emoji">💋</div>
+      <div class="kiss-thanks">Danke! Wir freuen uns auf dich!</div>
+    </div>
+    <div id="cryState" style="display:none; flex-direction:column; align-items:center; gap:1.5rem;">
+      <div class="kiss-emoji">😭</div>
+      <div class="kiss-thanks">We still love you</div>
+    </div>
   </div>
 
   <div class="page">
@@ -408,20 +414,20 @@
         <input class="name-field" type="text" name="name" placeholder="Dein Name" required>
 
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="dabei" value="Ja, ich bin dabei!" required>
-          <label for="dabei">Ja, ich bin dabei!</label>
+          <input type="radio" name="antwort" id="aura-camp" value="Ich hab Aura und campe." required>
+          <label for="aura-camp">Ich hab Aura und campe.</label>
         </div>
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="dabei-schlafplatz" value="Ich bin dabei und brauche einen Schlafplatz">
-          <label for="dabei-schlafplatz">Ich bin dabei und brauche einen Schlafplatz</label>
+          <input type="radio" name="antwort" id="aura-will" value="Ich hab Aura und will im Haus schlafen.">
+          <label for="aura-will">Ich hab Aura und will im Haus schlafen.</label>
         </div>
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="dabei-schlafplatz-gerne" value="Ich bin dabei und möchte wenn's geht einen Schlafplatz">
-          <label for="dabei-schlafplatz-gerne">Ich bin dabei und möchte wenn's geht einen Schlafplatz</label>
+          <input type="radio" name="antwort" id="aura-muss" value="Ich hab Aura und muss im Haus schlafen.">
+          <label for="aura-muss">Ich hab Aura und muss im Haus schlafen.</label>
         </div>
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="nicht" value="Ich kann leider nicht kommen">
-          <label for="nicht">Ich kann leider nicht kommen</label>
+          <input type="radio" name="antwort" id="loser" value="Ich bin ein Loser.">
+          <label for="loser">Ich bin ein Loser.</label>
         </div>
 
         <p class="rsvp-deadline">
@@ -506,7 +512,9 @@
 
     document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const body = new URLSearchParams(new FormData(this)).toString();
+      const formData = new FormData(this);
+      const isLoser = formData.get('antwort') === 'Ich bin ein Loser.';
+      const body = new URLSearchParams(formData).toString();
       try {
         await fetch('/', {
           method: 'POST',
@@ -514,8 +522,15 @@
           body
         });
       } catch(_) {}
+
       this.style.display = 'none';
-      document.getElementById('kissOverlay').classList.add('show');
+
+      const overlay = document.getElementById('kissOverlay');
+      document.getElementById('kissState').style.display = isLoser ? 'none' : 'flex';
+      document.getElementById('cryState').style.display  = isLoser ? 'flex' : 'none';
+      overlay.classList.add('show');
+
+      setTimeout(() => { overlay.classList.remove('show'); }, 3000);
     });
   </script>
 </body>
