@@ -110,6 +110,40 @@
 
     .btn:hover  { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(255,69,0,0.7); }
     .btn:active { transform: translateY(0); }
+
+    .nudge {
+      display: none;
+      text-align: center;
+      margin-bottom: 0.6rem;
+      animation: fadeIn 0.5s ease both;
+    }
+
+    .nudge.show { display: block; }
+
+    .nudge-text {
+      color: #FFD700;
+      font-size: 0.95rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 #ff4500;
+      margin-bottom: 0.3rem;
+    }
+
+    .nudge-arrows {
+      font-size: 1.6rem;
+      color: #ff8c00;
+      animation: bounce 0.6s ease infinite alternate;
+      display: inline-block;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(-4px); }
+      to   { transform: translateY(4px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -124,7 +158,11 @@
       <span class="photo-placeholder-label" id="photoLabel" style="display:none">[ Foto folgt ]</span>
     </div>
 
-    <button class="btn" onclick="window.location.href='video.html'">get your iPhone HERE</button>
+    <div class="nudge" id="nudge">
+      <div class="nudge-text">Das ist kein Scam, klicke jetzt!</div>
+      <div class="nudge-arrows">&#8595; &#8595;</div>
+    </div>
+    <button class="btn" id="mainBtn" onclick="window.location.href='video.html'">get your iPhone HERE</button>
   </div>
 
   <script>
@@ -155,6 +193,10 @@
         wrap.appendChild(f);
       }
     })();
+
+    const nudge = document.getElementById('nudge');
+    const timer = setTimeout(() => nudge.classList.add('show'), 5000);
+    document.getElementById('mainBtn').addEventListener('click', () => clearTimeout(timer));
   </script>
 </body>
 </html>
