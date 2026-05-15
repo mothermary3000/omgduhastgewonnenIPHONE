@@ -9,30 +9,71 @@
 
     body {
       min-height: 100vh;
-      background: linear-gradient(150deg, #fff9e6 0%, #fde8d0 35%, #e8f6f0 70%, #fdf0fb 100%);
+      background: #0a0a12;
       font-family: 'Comic Sans MS', 'Comic Sans', cursive;
       color: #333;
       overflow-x: hidden;
     }
 
-    /* ---- Sparkle particles ---- */
-    .sparkle-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-
-    .sparkle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #fff;
-      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-      animation: twinkle linear infinite;
-      opacity: 0;
+    /* ---- Disco canvas ---- */
+    #discoCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    @keyframes twinkle {
-      0%   { opacity: 0; transform: scale(0.5) rotate(0deg); }
-      30%  { opacity: 1; }
-      60%  { opacity: 0.6; }
-      100% { opacity: 0; transform: scale(1.5) rotate(180deg) translateY(-40px); }
+    /* ---- Disco ball ---- */
+    .disco-wrap {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .disco-string {
+      width: 2px;
+      height: 36px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0.4));
+    }
+
+    .disco-ball {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, #fff 0%, #e0e0e0 18%, #aaa 45%, #666 75%, #222 100%);
+      overflow: hidden;
+      animation: spinBall 5s linear infinite;
+      box-shadow: 0 8px 40px rgba(255,255,255,0.15), 0 0 80px rgba(255,255,255,0.05);
+      position: relative;
+    }
+
+    .disco-ball::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        repeating-linear-gradient(0deg,   rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 9px),
+        repeating-linear-gradient(90deg,  rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 9px);
+    }
+
+    .disco-ball::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, rgba(255,255,255,0.55) 0%, transparent 55%);
+    }
+
+    @keyframes spinBall {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
     /* ---- Page layout ---- */
@@ -83,7 +124,7 @@
 
     .subtitle {
       font-size: 1.25rem;
-      color: #a07a5a;
+      color: rgba(255,255,255,0.65);
       margin-top: 0.8rem;
       font-style: italic;
     }
@@ -262,7 +303,11 @@
 </head>
 <body>
 
-  <div class="sparkle-wrap" id="sparkleWrap"></div>
+  <canvas id="discoCanvas"></canvas>
+  <div class="disco-wrap">
+    <div class="disco-string"></div>
+    <div class="disco-ball"></div>
+  </div>
 
   <div class="page">
 
@@ -354,23 +399,53 @@
 
   <script>
     (function() {
-      const wrap = document.getElementById('sparkleWrap');
-      const colors = ['#ffffff','#e8e8e8','#ffd700','#ffe4a0','#c8ecd4','#ffc8e0'];
-      for (let i = 0; i < 45; i++) {
-        const s = document.createElement('div');
-        s.className = 'sparkle';
-        const size = 4 + Math.random() * 10;
-        s.style.cssText = `
-          width:${size}px;
-          height:${size}px;
-          left:${Math.random() * 100}%;
-          top:${Math.random() * 100}%;
-          background:${colors[Math.floor(Math.random() * colors.length)]};
-          animation-duration:${2 + Math.random() * 4}s;
-          animation-delay:${Math.random() * 5}s;
-        `;
-        wrap.appendChild(s);
+      const canvas = document.getElementById('discoCanvas');
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const colors = ['#ff0044','#ff6600','#ffdd00','#00ff99','#00aaff','#cc00ff','#ff00cc','#ffffff','#00ffff'];
+
+      const spots = Array.from({ length: 35 }, () => ({
+        angle:   Math.random() * Math.PI * 2,
+        radius:  120 + Math.random() * Math.max(window.innerWidth, window.innerHeight) * 0.65,
+        speed:   (0.25 + Math.random() * 0.6) * (Math.random() > 0.5 ? 1 : -1),
+        color:   colors[Math.floor(Math.random() * colors.length)],
+        size:    5 + Math.random() * 12,
+        opacity: 0.45 + Math.random() * 0.45,
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cx = canvas.width / 2;
+        const cy = 40;
+
+        spots.forEach(s => {
+          s.angle += s.speed * 0.012;
+          const x = cx + Math.cos(s.angle) * s.radius;
+          const y = cy + Math.sin(s.angle) * s.radius * 0.55;
+          if (x < -20 || x > canvas.width + 20 || y < -20 || y > canvas.height + 20) return;
+
+          ctx.save();
+          ctx.globalAlpha = s.opacity;
+          ctx.shadowColor = s.color;
+          ctx.shadowBlur  = 18;
+          ctx.fillStyle   = s.color;
+          ctx.beginPath();
+          ctx.rect(x - s.size / 2, y - s.size / 2, s.size, s.size);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
     })();
   </script>
 </body>
