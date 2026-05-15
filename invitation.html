@@ -3,455 +3,244 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Du bist eingeladen! 🎉</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <title>Wir hatten Geburtstag</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --pink:   #FF6B9D;
-      --yellow: #FFD93D;
-      --teal:   #4ECDC4;
-      --purple: #845EC2;
-      --dark:   #2D2D2D;
-    }
-
     body {
       min-height: 100vh;
-      background: linear-gradient(160deg, #fff9f0 0%, #ffeef6 50%, #f0edff 100%);
-      font-family: 'Nunito', sans-serif;
-      color: var(--dark);
+      background: linear-gradient(150deg, #fff9e6 0%, #fde8d0 35%, #e8f6f0 70%, #fdf0fb 100%);
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      color: #333;
       overflow-x: hidden;
     }
 
-    /* ---- Floating confetti dots ---- */
-    .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-    .dot {
+    /* ---- Sparkle particles ---- */
+    .sparkle-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+    .sparkle {
       position: absolute;
-      border-radius: 50%;
-      opacity: 0.2;
-      animation: float linear infinite;
-    }
-    @keyframes float {
-      0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0;    }
-      10%  { opacity: 0.2; }
-      90%  { opacity: 0.2; }
-      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0;    }
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      animation: twinkle linear infinite;
+      opacity: 0;
     }
 
-    /* ---- Page content ---- */
+    @keyframes twinkle {
+      0%   { opacity: 0; transform: scale(0.5) rotate(0deg); }
+      30%  { opacity: 1; }
+      60%  { opacity: 0.6; }
+      100% { opacity: 0; transform: scale(1.5) rotate(180deg) translateY(-40px); }
+    }
+
+    /* ---- Page layout ---- */
     .page {
       position: relative;
       z-index: 1;
-      max-width: 680px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+      padding: 3rem 1.5rem 5rem;
       animation: fadeUp 0.7s ease both;
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ---- Header ---- */
-    .header-badge {
+    .header {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
-    .emoji-row { font-size: 2.8rem; letter-spacing: 0.1em; }
-
     h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: clamp(2rem, 7vw, 3.2rem);
-      background: linear-gradient(90deg, var(--pink), var(--purple));
+      font-size: clamp(2.4rem, 8vw, 3.6rem);
+      background: linear-gradient(90deg,
+        #a0a0a0 0%,
+        #e8e8e8 20%,
+        #ffffff 35%,
+        #c8c8c8 50%,
+        #ffffff 65%,
+        #e0e0e0 80%,
+        #a0a0a0 100%
+      );
+      background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: silverShimmer 3.5s linear infinite;
       line-height: 1.2;
-      margin: 0.4rem 0 0.2rem;
+      filter: drop-shadow(0 2px 8px rgba(180,180,180,0.5));
     }
 
-    .tagline {
-      font-size: 1.05rem;
-      color: #888;
-      font-weight: 700;
+    @keyframes silverShimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
 
-    /* ---- Photo ---- */
-    .photo-wrap {
-      text-align: center;
-      margin: 1.8rem 0;
+    .subtitle {
+      font-size: 1.25rem;
+      color: #a07a5a;
+      margin-top: 0.8rem;
+      font-style: italic;
     }
 
-    #invitePhoto {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 5px solid var(--pink);
-      box-shadow: 0 0 0 6px rgba(255,107,157,0.18), 0 12px 36px rgba(255,107,157,0.25);
-      display: none;
-    }
-
-    .no-photo {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--yellow), var(--pink));
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4.5rem;
-      box-shadow: 0 8px 28px rgba(255,107,157,0.3);
-    }
-
-    /* ---- Card ---- */
+    /* ---- Details card ---- */
     .card {
-      background: #fff;
-      border-radius: 2rem;
-      padding: 2.5rem 2rem;
-      box-shadow: 0 8px 40px rgba(132,94,194,0.1);
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 1.5rem;
+      padding: 2rem 2rem;
+      box-shadow:
+        0 4px 30px rgba(180,180,180,0.2),
+        0 0 0 1.5px rgba(200,200,200,0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.9);
       margin-bottom: 1.5rem;
-      border-top: 6px solid var(--yellow);
+      backdrop-filter: blur(8px);
     }
 
     .card-title {
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--purple);
-      margin-bottom: 1.2rem;
+      color: #bbb;
+      margin-bottom: 1.4rem;
     }
 
     .detail-row {
       display: flex;
       align-items: flex-start;
       gap: 1rem;
-      padding: 0.85rem 0;
-      border-bottom: 1.5px solid #f2f2f2;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #f0ece4;
     }
     .detail-row:last-child { border-bottom: none; padding-bottom: 0; }
 
     .detail-icon {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       flex-shrink: 0;
-      width: 2.4rem;
+      width: 2rem;
       text-align: center;
-      margin-top: 0.1rem;
+      margin-top: 0.15rem;
     }
 
-    .detail-content {}
-    .detail-label { font-size: 0.78rem; font-weight: 800; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; }
-    .detail-value { font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-top: 0.1rem; }
-    .detail-value .highlight { color: var(--pink); }
-
-    /* ---- Message card ---- */
-    .message-card {
-      background: linear-gradient(135deg, var(--purple), #a78bfa);
-      color: #fff;
-      border-radius: 2rem;
-      padding: 2rem 2rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(132,94,194,0.3);
-    }
-
-    .message-card p {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      font-weight: 600;
-    }
-
-    .message-card .name {
-      font-family: 'Pacifico', cursive;
-      font-size: 1.5rem;
-      margin-bottom: 0.8rem;
-      display: block;
-    }
-
-    /* ---- RSVP ---- */
-    .rsvp-card {
-      background: #fff;
-      border-radius: 2rem;
-      padding: 2rem;
-      box-shadow: 0 8px 40px rgba(132,94,194,0.1);
-      margin-bottom: 1.5rem;
-      text-align: center;
-      border-top: 6px solid var(--teal);
-    }
-
-    .rsvp-card h2 {
-      font-family: 'Pacifico', cursive;
-      font-size: 1.5rem;
-      color: var(--teal);
-      margin-bottom: 0.4rem;
-    }
-
-    .rsvp-card p {
-      color: #888;
-      font-size: 0.9rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .rsvp-btns {
-      display: flex;
-      gap: 0.8rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .rsvp-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 0.85rem 2rem;
-      font-family: 'Nunito', sans-serif;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-
-    .rsvp-btn.yes {
-      background: linear-gradient(135deg, var(--teal), #22d3ee);
-      color: #fff;
-      box-shadow: 0 5px 18px rgba(78,205,196,0.4);
-    }
-
-    .rsvp-btn.no {
-      background: #f3f3f3;
-      color: #999;
-    }
-
-    .rsvp-btn:hover  { transform: translateY(-2px); }
-    .rsvp-btn:active { transform: scale(0.97); }
-
-    .rsvp-result {
-      display: none;
-      font-size: 1.1rem;
-      font-weight: 800;
-      padding: 0.8rem 1.2rem;
-      border-radius: 1rem;
-      margin-top: 1rem;
-    }
-    .rsvp-result.yes { background: #e8fdf8; color: #15a08a; }
-    .rsvp-result.no  { background: #f8f8f8; color: #999; }
-
-    /* ---- Download button ---- */
-    .download-section {
-      text-align: center;
-      margin-top: 0.5rem;
-    }
-
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: linear-gradient(135deg, var(--yellow), #ffb347);
-      color: #5a3500;
-      border: none;
-      border-radius: 999px;
-      padding: 0.9rem 2.2rem;
-      font-family: 'Nunito', sans-serif;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 5px 18px rgba(255,211,61,0.5);
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .download-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,211,61,0.6); }
-    .download-btn:active { transform: scale(0.97); }
-
-    .download-hint {
-      margin-top: 0.6rem;
-      font-size: 0.8rem;
+    .detail-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       color: #bbb;
+      margin-bottom: 0.2rem;
+    }
+
+    .detail-value {
+      font-size: 1.05rem;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .detail-value strong {
+      color: #c0824a;
+    }
+
+    .detail-note {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 0.2rem;
+    }
+
+    /* ---- Silver shimmer divider ---- */
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d4d4d4, #ffffff, #d4d4d4, transparent);
+      border-radius: 1px;
+      margin: 2rem 0;
+      animation: silverShimmer 3.5s linear infinite;
+      background-size: 200% auto;
     }
 
     /* ---- Footer ---- */
     footer {
       text-align: center;
-      margin-top: 2.5rem;
       font-size: 0.8rem;
       color: #ccc;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="confetti-wrap" id="confetti"></div>
+  <div class="sparkle-wrap" id="sparkleWrap"></div>
 
-  <div class="page" id="mainPage">
+  <div class="page">
 
-    <!-- Header -->
-    <div class="header-badge">
-      <div class="emoji-row">🎂 🎉 🥳</div>
-      <h1>Du bist eingeladen!</h1>
-      <p class="tagline">Komm und feier mit uns!</p>
+    <div class="header">
+      <h1>Wir hatten Geburtstag</h1>
+      <p class="subtitle">und wollen das mit dir feiern.</p>
     </div>
 
-    <!-- Photo -->
-    <div class="photo-wrap">
-      <img id="invitePhoto" src="" alt="Foto">
-      <div class="no-photo" id="noPhoto">🎈</div>
-    </div>
+    <div class="divider"></div>
 
-    <!-- Personal message -->
-    <div class="message-card">
-      <!-- ✏️ EDIT: Change the name and message below -->
-      <span class="name">Heeey Schatz! 🌟</span>
-      <p>
-        Ich feiere meinen Geburtstag und möchte diesen besonderen Tag
-        unbedingt mit dir feiern! Es wird lustig, schön und unvergesslich –
-        also komm unbedingt! 🎊
-      </p>
-    </div>
-
-    <!-- Event details -->
     <div class="card">
-      <div class="card-title">📋 Details zur Feier</div>
+      <div class="card-title">Details</div>
 
       <div class="detail-row">
-        <div class="detail-icon">📅</div>
-        <div class="detail-content">
-          <div class="detail-label">Datum</div>
-          <!-- ✏️ EDIT: Change the date -->
-          <div class="detail-value"><span class="highlight">Samstag, 14. Juni 2025</span></div>
+        <div class="detail-icon">&#128197;</div>
+        <div>
+          <div class="detail-label">Wann</div>
+          <div class="detail-value"><strong>18.&ndash;20. September</strong></div>
+          <div class="detail-note">Fest am 19.09. &mdash; Anreise Freitag ab x Uhr möglich</div>
         </div>
       </div>
 
       <div class="detail-row">
-        <div class="detail-icon">🕕</div>
-        <div class="detail-content">
-          <div class="detail-label">Uhrzeit</div>
-          <!-- ✏️ EDIT: Change the time -->
-          <div class="detail-value">Ab <span class="highlight">18:00 Uhr</span> – und so lange du magst!</div>
+        <div class="detail-icon">&#128205;</div>
+        <div>
+          <div class="detail-label">Wo</div>
+          <div class="detail-value"><strong>Pfarrhaus Kirchkogel</strong></div>
+          <div class="detail-note">Adresse folgt</div>
         </div>
       </div>
 
       <div class="detail-row">
-        <div class="detail-icon">📍</div>
-        <div class="detail-content">
-          <div class="detail-label">Ort</div>
-          <!-- ✏️ EDIT: Change the location -->
-          <div class="detail-value"><span class="highlight">Musterstraße 12</span><br>12345 Musterstadt</div>
-        </div>
-      </div>
-
-      <div class="detail-row">
-        <div class="detail-icon">👗</div>
-        <div class="detail-content">
+        <div class="detail-icon">&#128248;</div>
+        <div>
           <div class="detail-label">Dresscode</div>
-          <!-- ✏️ EDIT: Change the dresscode or remove this row -->
-          <div class="detail-value">Bunt & festlich – heute darf alles leuchten! 🌈</div>
+          <div class="detail-value">folgt</div>
         </div>
       </div>
 
     </div>
 
-    <!-- RSVP -->
-    <div class="rsvp-card">
-      <h2>Kannst du kommen?</h2>
-      <p>Bitte sag mir bis zum <strong><!-- ✏️ EDIT: deadline --> 7. Juni 2025</strong> Bescheid.</p>
-      <div class="rsvp-btns">
-        <button class="rsvp-btn yes" onclick="rsvp('yes')">✅ Ich komme!</button>
-        <button class="rsvp-btn no"  onclick="rsvp('no')">😢 Ich kann leider nicht</button>
-      </div>
-      <div class="rsvp-result yes" id="rsvpYes">🎉 Juhu! Ich freue mich riesig auf dich!</div>
-      <div class="rsvp-result no"  id="rsvpNo">😢 Schade… Ich vermisse dich schon!</div>
-
-      <!-- ✏️ EDIT: add your email or phone here for contact -->
-      <p style="margin-top:1.2rem; font-size:0.82rem; color:#bbb;">
-        Fragen? Melde dich einfach bei mir: <strong style="color:#888">deine@email.de</strong>
-      </p>
-    </div>
-
-    <!-- Download -->
-    <div class="download-section">
-      <button class="download-btn" onclick="downloadPage()">
-        <span>⬇️</span> Einladung herunterladen
-      </button>
-      <p class="download-hint">Speichert diese Seite als HTML-Datei auf deinem Gerät.</p>
-    </div>
+    <div class="divider"></div>
 
     <footer>
-      Gemacht mit 💖 und viel Vorfreude
+      Wir freuen uns auf dich.
     </footer>
 
-  </div><!-- /page -->
+  </div>
 
   <script>
-    // ---- Load photo from landing page ----
     (function() {
-      const b64 = localStorage.getItem('bdayPhoto');
-      const img = document.getElementById('invitePhoto');
-      const placeholder = document.getElementById('noPhoto');
-      if (b64) {
-        img.src = b64;
-        img.style.display = 'block';
-        placeholder.style.display = 'none';
-      }
-    })();
-
-    // ---- Floating dots ----
-    (function() {
-      const colors = ['#FF6B9D','#FFD93D','#4ECDC4','#845EC2','#FF9671'];
-      const wrap = document.getElementById('confetti');
-      for (let i = 0; i < 28; i++) {
-        const d = document.createElement('div');
-        d.className = 'dot';
-        const size = 8 + Math.random() * 28;
-        d.style.cssText = `
-          width:${size}px;height:${size}px;
-          left:${Math.random()*100}%;
-          background:${colors[i % colors.length]};
-          animation-duration:${7 + Math.random()*10}s;
-          animation-delay:${Math.random()*10}s;
+      const wrap = document.getElementById('sparkleWrap');
+      const colors = ['#ffffff','#e8e8e8','#ffd700','#ffe4a0','#c8ecd4','#ffc8e0'];
+      for (let i = 0; i < 45; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        const size = 4 + Math.random() * 10;
+        s.style.cssText = `
+          width:${size}px;
+          height:${size}px;
+          left:${Math.random() * 100}%;
+          top:${Math.random() * 100}%;
+          background:${colors[Math.floor(Math.random() * colors.length)]};
+          animation-duration:${2 + Math.random() * 4}s;
+          animation-delay:${Math.random() * 5}s;
         `;
-        wrap.appendChild(d);
+        wrap.appendChild(s);
       }
     })();
-
-    // ---- RSVP ----
-    function rsvp(answer) {
-      document.getElementById('rsvpYes').style.display = answer === 'yes' ? 'block' : 'none';
-      document.getElementById('rsvpNo').style.display  = answer === 'no'  ? 'block' : 'none';
-    }
-
-    // ---- Download page as standalone HTML ----
-    function downloadPage() {
-      // Inline the photo so the downloaded file is self-contained
-      const b64 = localStorage.getItem('bdayPhoto');
-      let html = document.documentElement.outerHTML;
-
-      // Replace the script block so the downloaded version loads the photo inline
-      if (b64) {
-        html = html.replace(
-          "const b64 = localStorage.getItem('bdayPhoto');",
-          `const b64 = '${b64}';`
-        ).replace(
-          "localStorage.getItem('bdayPhoto')",
-          `'${b64}'`
-        );
-      }
-
-      // Remove the "download" button from the saved copy to keep it clean
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html;
-      const dlSection = tmp.querySelector('.download-section');
-      if (dlSection) dlSection.remove();
-      html = tmp.innerHTML;
-
-      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-      const url  = URL.createObjectURL(blob);
-      const a    = document.createElement('a');
-      a.href     = url;
-      a.download = 'geburtstags-einladung.html';
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 5000);
-    }
   </script>
 </body>
 </html>
