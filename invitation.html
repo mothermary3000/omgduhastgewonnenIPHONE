@@ -328,6 +328,25 @@
 
     .rsvp-deadline strong { color: #7d0038; }
 
+    /* ---- Mute button ---- */
+    #muteBtn {
+      position: fixed;
+      bottom: 1.2rem;
+      right: 1.2rem;
+      z-index: 10;
+      background: rgba(255,180,210,0.25);
+      border: 1.5px solid rgba(255,150,190,0.4);
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 0.8rem;
+      color: #fff;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s;
+    }
+    #muteBtn:hover { background: rgba(255,180,210,0.45); }
+
     /* ---- Footer ---- */
     footer {
       text-align: center;
@@ -340,6 +359,7 @@
 <body>
 
   <canvas id="discoCanvas"></canvas>
+  <button id="muteBtn">&#9835; Ton aus</button>
 
   <div id="kissOverlay">
     <div id="kissState">
@@ -509,6 +529,58 @@
       }
 
       draw();
+    })();
+
+    // ---- Looping audio with 2s crossfade ----
+    (function() {
+      const FADE = 2;
+      let ctx, buffer, masterGain, muted = false, ready = false;
+
+      async function init() {
+        if (ready) return;
+        ready = true;
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGain = ctx.createGain();
+        masterGain.connect(ctx.destination);
+        try {
+          const res = await fetch('sound_invitation.m4a');
+          buffer = await ctx.decodeAudioData(await res.arrayBuffer());
+          scheduleLoop(ctx.currentTime);
+        } catch(e) { console.warn('Audio load failed', e); }
+      }
+
+      function scheduleLoop(startTime) {
+        if (!buffer) return;
+        const dur = buffer.duration;
+        const src  = ctx.createBufferSource();
+        src.buffer = buffer;
+        const gain = ctx.createGain();
+        src.connect(gain);
+        gain.connect(masterGain);
+
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(1, startTime + FADE);
+        gain.gain.setValueAtTime(1, startTime + dur - FADE);
+        gain.gain.linearRampToValueAtTime(0, startTime + dur);
+
+        src.start(startTime);
+
+        // start next loop FADE seconds before this one ends so they overlap
+        const nextStart = startTime + dur - FADE;
+        const delay = Math.max(0, (nextStart - ctx.currentTime - 0.05) * 1000);
+        setTimeout(() => scheduleLoop(nextStart), delay);
+      }
+
+      ['click','touchstart','scroll','keydown'].forEach(e =>
+        document.addEventListener(e, init, { once: true })
+      );
+
+      document.getElementById('muteBtn').addEventListener('click', () => {
+        muted = !muted;
+        if (ctx) masterGain.gain.setTargetAtTime(muted ? 0 : 1, ctx.currentTime, 0.3);
+        document.getElementById('muteBtn').textContent = muted ? '♪ Ton an' : '♩ Ton aus';
+        if (!ready) init();
+      });
     })();
 
     document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
