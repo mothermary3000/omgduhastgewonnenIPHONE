@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ein Moment für dich…</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d0d0d;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Nunito', sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* --- Intro screen shown before video starts --- */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #FF6B9D 0%, #845EC2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: opacity 0.8s ease;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    #intro.hidden { opacity: 0; pointer-events: none; }
+
+    #intro .emoji { font-size: 4rem; margin-bottom: 1rem; animation: bounce 1.2s ease infinite alternate; }
+    @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-16px); } }
+
+    #intro h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      margin-bottom: 0.6rem;
+    }
+
+    #intro p { font-size: 1rem; opacity: 0.85; margin-bottom: 2.5rem; }
+
+    .play-btn {
+      background: #fff;
+      color: #845EC2;
+      border: none;
+      border-radius: 999px;
+      padding: 1rem 2.8rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .play-btn:hover  { transform: scale(1.06); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+    .play-btn:active { transform: scale(0.98); }
+
+    /* --- Video container --- */
+    #video-wrap {
+      position: relative;
+      width: min(900px, 100vw);
+      aspect-ratio: 16/9;
+      background: #000;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Placeholder shown when no video file is found */
+    #placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg,#1a1a2e,#16213e);
+      color: #ccc;
+      text-align: center;
+      padding: 2rem;
+      gap: 1rem;
+    }
+
+    #placeholder .icon { font-size: 4rem; }
+    #placeholder h2 { font-size: 1.2rem; color: #FFD93D; }
+    #placeholder p  { font-size: 0.85rem; line-height: 1.6; max-width: 420px; }
+    #placeholder code {
+      background: rgba(255,255,255,0.1);
+      padding: 0.15em 0.5em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    .skip-btn {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 0.55rem 1.3rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s;
+      z-index: 5;
+    }
+    .skip-btn:hover { background: rgba(255,255,255,0.22); }
+
+    /* Fade-out overlay for transition to invitation */
+    #fade-out {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+      transition: opacity 1s ease;
+    }
+    #fade-out.active { opacity: 1; pointer-events: all; }
+  </style>
+</head>
+<body>
+
+  <!-- Intro screen -->
+  <div id="intro">
+    <div class="emoji">🎬</div>
+    <h1>Psst… eine Überraschung!</h1>
+    <p>Schau dir das kurze Video an, bevor du zur Einladung kommst.</p>
+    <button class="play-btn" onclick="startVideo()">▶ Video abspielen</button>
+  </div>
+
+  <!-- Video -->
+  <div id="video-wrap">
+    <video id="vid" playsinline></video>
+    <div id="placeholder">
+      <div class="icon">🎥</div>
+      <h2>Hier kommt dein Video hin!</h2>
+      <p>
+        Lege deine Videodatei in diesen Ordner und benenne sie <code>video.mp4</code>.<br>
+        Danach wird sie hier automatisch abgespielt.<br><br>
+        Unterstützte Formate: <code>.mp4</code>, <code>.webm</code>, <code>.ogg</code>
+      </p>
+      <button class="play-btn" style="margin-top:1rem" onclick="goToInvitation()">Zur Einladung springen →</button>
+    </div>
+  </div>
+
+  <button class="skip-btn" onclick="goToInvitation()">Überspringen →</button>
+  <div id="fade-out"></div>
+
+  <script>
+    // ---- Configure your video file here ----
+    const VIDEO_SRC = 'video.mp4'; // change filename if needed
+    // -----------------------------------------
+
+    const vid         = document.getElementById('vid');
+    const placeholder = document.getElementById('placeholder');
+    const intro       = document.getElementById('intro');
+
+    // Check if the video file exists
+    fetch(VIDEO_SRC, { method: 'HEAD' })
+      .then(r => {
+        if (r.ok) {
+          vid.src = VIDEO_SRC;
+          placeholder.style.display = 'none';
+          vid.addEventListener('ended', goToInvitation);
+        }
+      })
+      .catch(() => { /* video not found – placeholder stays visible */ });
+
+    function startVideo() {
+      intro.classList.add('hidden');
+      setTimeout(() => { intro.style.display = 'none'; }, 800);
+      if (vid.src) {
+        vid.play().catch(() => {});
+      }
+    }
+
+    function goToInvitation() {
+      const fadeEl = document.getElementById('fade-out');
+      fadeEl.classList.add('active');
+      setTimeout(() => { window.location.href = 'invitation.html'; }, 1000);
+    }
+  </script>
+</body>
+</html>

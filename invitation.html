@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Du bist eingeladen! 🎉</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:   #FF6B9D;
+      --yellow: #FFD93D;
+      --teal:   #4ECDC4;
+      --purple: #845EC2;
+      --dark:   #2D2D2D;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #fff9f0 0%, #ffeef6 50%, #f0edff 100%);
+      font-family: 'Nunito', sans-serif;
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ---- Floating confetti dots ---- */
+    .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .dot {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.2;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0;    }
+      10%  { opacity: 0.2; }
+      90%  { opacity: 0.2; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0;    }
+    }
+
+    /* ---- Page content ---- */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- Header ---- */
+    .header-badge {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .emoji-row { font-size: 2.8rem; letter-spacing: 0.1em; }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+      color: #888;
+      font-weight: 700;
+    }
+
+    /* ---- Photo ---- */
+    .photo-wrap {
+      text-align: center;
+      margin: 1.8rem 0;
+    }
+
+    #invitePhoto {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid var(--pink);
+      box-shadow: 0 0 0 6px rgba(255,107,157,0.18), 0 12px 36px rgba(255,107,157,0.25);
+      display: none;
+    }
+
+    .no-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--yellow), var(--pink));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      box-shadow: 0 8px 28px rgba(255,107,157,0.3);
+    }
+
+    /* ---- Card ---- */
+    .card {
+      background: #fff;
+      border-radius: 2rem;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 8px 40px rgba(132,94,194,0.1);
+      margin-bottom: 1.5rem;
+      border-top: 6px solid var(--yellow);
+    }
+
+    .card-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 1.2rem;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1.5px solid #f2f2f2;
+    }
+    .detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .detail-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      width: 2.4rem;
+      text-align: center;
+      margin-top: 0.1rem;
+    }
+
+    .detail-content {}
+    .detail-label { font-size: 0.78rem; font-weight: 800; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; }
+    .detail-value { font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-top: 0.1rem; }
+    .detail-value .highlight { color: var(--pink); }
+
+    /* ---- Message card ---- */
+    .message-card {
+      background: linear-gradient(135deg, var(--purple), #a78bfa);
+      color: #fff;
+      border-radius: 2rem;
+      padding: 2rem 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(132,94,194,0.3);
+    }
+
+    .message-card p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .message-card .name {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    /* ---- RSVP ---- */
+    .rsvp-card {
+      background: #fff;
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 0 8px 40px rgba(132,94,194,0.1);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      border-top: 6px solid var(--teal);
+    }
+
+    .rsvp-card h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.5rem;
+      color: var(--teal);
+      margin-bottom: 0.4rem;
+    }
+
+    .rsvp-card p {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .rsvp-btns {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .rsvp-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.85rem 2rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .rsvp-btn.yes {
+      background: linear-gradient(135deg, var(--teal), #22d3ee);
+      color: #fff;
+      box-shadow: 0 5px 18px rgba(78,205,196,0.4);
+    }
+
+    .rsvp-btn.no {
+      background: #f3f3f3;
+      color: #999;
+    }
+
+    .rsvp-btn:hover  { transform: translateY(-2px); }
+    .rsvp-btn:active { transform: scale(0.97); }
+
+    .rsvp-result {
+      display: none;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 0.8rem 1.2rem;
+      border-radius: 1rem;
+      margin-top: 1rem;
+    }
+    .rsvp-result.yes { background: #e8fdf8; color: #15a08a; }
+    .rsvp-result.no  { background: #f8f8f8; color: #999; }
+
+    /* ---- Download button ---- */
+    .download-section {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, var(--yellow), #ffb347);
+      color: #5a3500;
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem 2.2rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 5px 18px rgba(255,211,61,0.5);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .download-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,211,61,0.6); }
+    .download-btn:active { transform: scale(0.97); }
+
+    .download-hint {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      color: #bbb;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="confetti-wrap" id="confetti"></div>
+
+  <div class="page" id="mainPage">
+
+    <!-- Header -->
+    <div class="header-badge">
+      <div class="emoji-row">🎂 🎉 🥳</div>
+      <h1>Du bist eingeladen!</h1>
+      <p class="tagline">Komm und feier mit uns!</p>
+    </div>
+
+    <!-- Photo -->
+    <div class="photo-wrap">
+      <img id="invitePhoto" src="" alt="Foto">
+      <div class="no-photo" id="noPhoto">🎈</div>
+    </div>
+
+    <!-- Personal message -->
+    <div class="message-card">
+      <!-- ✏️ EDIT: Change the name and message below -->
+      <span class="name">Heeey Schatz! 🌟</span>
+      <p>
+        Ich feiere meinen Geburtstag und möchte diesen besonderen Tag
+        unbedingt mit dir feiern! Es wird lustig, schön und unvergesslich –
+        also komm unbedingt! 🎊
+      </p>
+    </div>
+
+    <!-- Event details -->
+    <div class="card">
+      <div class="card-title">📋 Details zur Feier</div>
+
+      <div class="detail-row">
+        <div class="detail-icon">📅</div>
+        <div class="detail-content">
+          <div class="detail-label">Datum</div>
+          <!-- ✏️ EDIT: Change the date -->
+          <div class="detail-value"><span class="highlight">Samstag, 14. Juni 2025</span></div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-icon">🕕</div>
+        <div class="detail-content">
+          <div class="detail-label">Uhrzeit</div>
+          <!-- ✏️ EDIT: Change the time -->
+          <div class="detail-value">Ab <span class="highlight">18:00 Uhr</span> – und so lange du magst!</div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-icon">📍</div>
+        <div class="detail-content">
+          <div class="detail-label">Ort</div>
+          <!-- ✏️ EDIT: Change the location -->
+          <div class="detail-value"><span class="highlight">Musterstraße 12</span><br>12345 Musterstadt</div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-icon">👗</div>
+        <div class="detail-content">
+          <div class="detail-label">Dresscode</div>
+          <!-- ✏️ EDIT: Change the dresscode or remove this row -->
+          <div class="detail-value">Bunt & festlich – heute darf alles leuchten! 🌈</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RSVP -->
+    <div class="rsvp-card">
+      <h2>Kannst du kommen?</h2>
+      <p>Bitte sag mir bis zum <strong><!-- ✏️ EDIT: deadline --> 7. Juni 2025</strong> Bescheid.</p>
+      <div class="rsvp-btns">
+        <button class="rsvp-btn yes" onclick="rsvp('yes')">✅ Ich komme!</button>
+        <button class="rsvp-btn no"  onclick="rsvp('no')">😢 Ich kann leider nicht</button>
+      </div>
+      <div class="rsvp-result yes" id="rsvpYes">🎉 Juhu! Ich freue mich riesig auf dich!</div>
+      <div class="rsvp-result no"  id="rsvpNo">😢 Schade… Ich vermisse dich schon!</div>
+
+      <!-- ✏️ EDIT: add your email or phone here for contact -->
+      <p style="margin-top:1.2rem; font-size:0.82rem; color:#bbb;">
+        Fragen? Melde dich einfach bei mir: <strong style="color:#888">deine@email.de</strong>
+      </p>
+    </div>
+
+    <!-- Download -->
+    <div class="download-section">
+      <button class="download-btn" onclick="downloadPage()">
+        <span>⬇️</span> Einladung herunterladen
+      </button>
+      <p class="download-hint">Speichert diese Seite als HTML-Datei auf deinem Gerät.</p>
+    </div>
+
+    <footer>
+      Gemacht mit 💖 und viel Vorfreude
+    </footer>
+
+  </div><!-- /page -->
+
+  <script>
+    // ---- Load photo from landing page ----
+    (function() {
+      const b64 = localStorage.getItem('bdayPhoto');
+      const img = document.getElementById('invitePhoto');
+      const placeholder = document.getElementById('noPhoto');
+      if (b64) {
+        img.src = b64;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      }
+    })();
+
+    // ---- Floating dots ----
+    (function() {
+      const colors = ['#FF6B9D','#FFD93D','#4ECDC4','#845EC2','#FF9671'];
+      const wrap = document.getElementById('confetti');
+      for (let i = 0; i < 28; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot';
+        const size = 8 + Math.random() * 28;
+        d.style.cssText = `
+          width:${size}px;height:${size}px;
+          left:${Math.random()*100}%;
+          background:${colors[i % colors.length]};
+          animation-duration:${7 + Math.random()*10}s;
+          animation-delay:${Math.random()*10}s;
+        `;
+        wrap.appendChild(d);
+      }
+    })();
+
+    // ---- RSVP ----
+    function rsvp(answer) {
+      document.getElementById('rsvpYes').style.display = answer === 'yes' ? 'block' : 'none';
+      document.getElementById('rsvpNo').style.display  = answer === 'no'  ? 'block' : 'none';
+    }
+
+    // ---- Download page as standalone HTML ----
+    function downloadPage() {
+      // Inline the photo so the downloaded file is self-contained
+      const b64 = localStorage.getItem('bdayPhoto');
+      let html = document.documentElement.outerHTML;
+
+      // Replace the script block so the downloaded version loads the photo inline
+      if (b64) {
+        html = html.replace(
+          "const b64 = localStorage.getItem('bdayPhoto');",
+          `const b64 = '${b64}';`
+        ).replace(
+          "localStorage.getItem('bdayPhoto')",
+          `'${b64}'`
+        );
+      }
+
+      // Remove the "download" button from the saved copy to keep it clean
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      const dlSection = tmp.querySelector('.download-section');
+      if (dlSection) dlSection.remove();
+      html = tmp.innerHTML;
+
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'geburtstags-einladung.html';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    }
+  </script>
+</body>
+</html>
