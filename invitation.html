@@ -38,18 +38,18 @@
 
     .disco-string {
       width: 2px;
-      height: 36px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0.4));
+      height: 22px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0.45));
     }
 
     .disco-ball {
-      width: 80px;
-      height: 80px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       background: radial-gradient(circle at 38% 32%, #fff 0%, #e0e0e0 18%, #aaa 45%, #666 75%, #222 100%);
       overflow: hidden;
       animation: spinBall 5s linear infinite;
-      box-shadow: 0 8px 40px rgba(255,255,255,0.15), 0 0 80px rgba(255,255,255,0.05);
+      box-shadow: 0 12px 60px rgba(255,255,255,0.25), 0 0 120px rgba(255,255,255,0.08);
       position: relative;
     }
 
@@ -59,8 +59,8 @@
       inset: 0;
       border-radius: 50%;
       background:
-        repeating-linear-gradient(0deg,   rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 9px),
-        repeating-linear-gradient(90deg,  rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px, transparent 1px, transparent 9px);
+        repeating-linear-gradient(0deg,   rgba(0,0,0,0.3) 0px, rgba(0,0,0,0.3) 1px, transparent 1px, transparent 11px),
+        repeating-linear-gradient(90deg,  rgba(0,0,0,0.3) 0px, rgba(0,0,0,0.3) 1px, transparent 1px, transparent 11px);
     }
 
     .disco-ball::after {
@@ -68,7 +68,7 @@
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      background: radial-gradient(circle at 38% 32%, rgba(255,255,255,0.55) 0%, transparent 55%);
+      background: radial-gradient(circle at 38% 32%, rgba(255,255,255,0.6) 0%, transparent 52%);
     }
 
     @keyframes spinBall {
@@ -82,7 +82,7 @@
       z-index: 1;
       max-width: 640px;
       margin: 0 auto;
-      padding: 3rem 1.5rem 5rem;
+      padding: 6rem 1.5rem 5rem;
       animation: fadeUp 0.7s ease both;
     }
 
@@ -95,49 +95,46 @@
     .header {
       text-align: center;
       margin-bottom: 2rem;
+      position: relative;
+      z-index: 3;
     }
 
     h1 {
-      font-size: clamp(2.4rem, 8vw, 3.6rem);
+      font-size: clamp(2.2rem, 8vw, 3.4rem);
       background: linear-gradient(90deg,
-        #a0a0a0 0%,
-        #e8e8e8 20%,
-        #ffffff 35%,
-        #c8c8c8 50%,
-        #ffffff 65%,
-        #e0e0e0 80%,
-        #a0a0a0 100%
+        #880044 0%,
+        #ff1493 18%,
+        #ff69b4 32%,
+        #ffe0f0 44%,
+        #ffffff 50%,
+        #ffe0f0 56%,
+        #ff69b4 68%,
+        #ff1493 82%,
+        #880044 100%
       );
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: silverShimmer 3.5s linear infinite;
+      animation: pinkShimmer 2.8s linear infinite;
       line-height: 1.2;
-      filter: drop-shadow(0 2px 8px rgba(180,180,180,0.5));
+      filter: drop-shadow(0 0 18px rgba(255,20,147,0.7));
     }
 
-    @keyframes silverShimmer {
+    @keyframes pinkShimmer {
       0%   { background-position: 0% center; }
       100% { background-position: 200% center; }
     }
 
-    .subtitle {
-      font-size: 1.25rem;
-      color: rgba(255,255,255,0.65);
-      margin-top: 0.8rem;
-      font-style: italic;
-    }
-
     /* ---- Details card ---- */
     .card {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255,255,255,0.92);
       border-radius: 1.5rem;
-      padding: 2rem 2rem;
-      box-shadow:
-        0 4px 30px rgba(180,180,180,0.2),
-        0 0 0 1.5px rgba(200,200,200,0.5),
-        inset 0 0 0 1px rgba(255,255,255,0.9);
+      padding: 2rem;
+      border-top: 5px solid transparent;
+      border-image: linear-gradient(90deg, #00cfff, #a855f7) 1;
+      border-image-slice: 1;
+      box-shadow: 0 4px 30px rgba(0,200,255,0.15), 0 0 0 1px rgba(168,85,247,0.2);
       margin-bottom: 1.5rem;
       backdrop-filter: blur(8px);
     }
@@ -146,8 +143,9 @@
       font-size: 0.72rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #bbb;
+      color: #a855f7;
       margin-bottom: 1.4rem;
+      font-weight: bold;
     }
 
     .detail-row {
@@ -155,7 +153,7 @@
       align-items: flex-start;
       gap: 1rem;
       padding: 0.9rem 0;
-      border-bottom: 1px solid #f0ece4;
+      border-bottom: 1px solid #f0eeff;
     }
     .detail-row:last-child { border-bottom: none; padding-bottom: 0; }
 
@@ -171,62 +169,63 @@
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #bbb;
+      color: #00b4d8;
+      font-weight: bold;
       margin-bottom: 0.2rem;
     }
 
     .detail-value {
       font-size: 1.05rem;
-      color: #444;
+      color: #2d2d2d;
       line-height: 1.5;
     }
 
-    .detail-value strong {
-      color: #c0824a;
-    }
+    .detail-value strong { color: #c026d3; }
 
     .detail-note {
       font-size: 0.85rem;
-      color: #aaa;
+      color: #888;
       margin-top: 0.2rem;
     }
 
-    /* ---- Silver shimmer divider ---- */
+    /* ---- Divider ---- */
     .divider {
       height: 2px;
-      background: linear-gradient(90deg, transparent, #d4d4d4, #ffffff, #d4d4d4, transparent);
+      background: linear-gradient(90deg, transparent, #ff1493, #a855f7, #00cfff, transparent);
       border-radius: 1px;
       margin: 2rem 0;
-      animation: silverShimmer 3.5s linear infinite;
-      background-size: 200% auto;
     }
 
     /* ---- Text block ---- */
     .text-block {
-      background: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.9);
       border-radius: 1.5rem;
       padding: 1.8rem 2rem;
       margin-bottom: 1.5rem;
-      box-shadow: 0 4px 30px rgba(180,180,180,0.15), 0 0 0 1.5px rgba(200,200,200,0.4);
+      border-left: 5px solid #f59e0b;
+      box-shadow: 0 4px 30px rgba(245,158,11,0.15);
       backdrop-filter: blur(6px);
       font-size: 1.05rem;
       line-height: 1.75;
-      color: #444;
+      color: #2d2d2d;
     }
 
     /* ---- RSVP card ---- */
     .rsvp-card {
-      background: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.92);
       border-radius: 1.5rem;
       padding: 2rem;
-      box-shadow: 0 4px 30px rgba(180,180,180,0.2), 0 0 0 1.5px rgba(200,200,200,0.5);
+      border-top: 5px solid transparent;
+      border-image: linear-gradient(90deg, #ff1493, #ff69b4) 1;
+      border-image-slice: 1;
+      box-shadow: 0 4px 30px rgba(255,20,147,0.15), 0 0 0 1px rgba(255,105,180,0.2);
       margin-bottom: 1.5rem;
       backdrop-filter: blur(8px);
     }
 
     .rsvp-card h2 {
       font-size: 1.2rem;
-      color: #c0824a;
+      color: #ff1493;
       margin-bottom: 1.2rem;
     }
 
@@ -312,8 +311,7 @@
   <div class="page">
 
     <div class="header">
-      <h1>Wir hatten Geburtstag</h1>
-      <p class="subtitle">und wollen das mit dir feiern.</p>
+      <h1>WIR HATTEN GEBURTSTAG</h1>
     </div>
 
     <div class="divider"></div>
@@ -409,35 +407,47 @@
       resize();
       window.addEventListener('resize', resize);
 
-      const colors = ['#ff0044','#ff6600','#ffdd00','#00ff99','#00aaff','#cc00ff','#ff00cc','#ffffff','#00ffff'];
+      const colors = ['#ff0044','#ff1493','#ff6600','#ffdd00','#00ff99','#00cfff','#a855f7','#ff00cc','#ffffff','#00ffff','#ff69b4','#7fff00'];
 
-      const spots = Array.from({ length: 35 }, () => ({
+      const spots = Array.from({ length: 70 }, () => ({
         angle:   Math.random() * Math.PI * 2,
-        radius:  120 + Math.random() * Math.max(window.innerWidth, window.innerHeight) * 0.65,
-        speed:   (0.25 + Math.random() * 0.6) * (Math.random() > 0.5 ? 1 : -1),
+        radius:  80 + Math.random() * Math.max(window.innerWidth, window.innerHeight) * 0.75,
+        speed:   (0.2 + Math.random() * 0.9) * (Math.random() > 0.5 ? 1 : -1),
         color:   colors[Math.floor(Math.random() * colors.length)],
-        size:    5 + Math.random() * 12,
-        opacity: 0.45 + Math.random() * 0.45,
+        size:    4 + Math.random() * 16,
+        baseOpacity: 0.5 + Math.random() * 0.5,
+        pulseSpeed:  0.02 + Math.random() * 0.05,
+        pulseOffset: Math.random() * Math.PI * 2,
+        isCircle: Math.random() > 0.5,
       }));
 
+      let tick = 0;
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const cx = canvas.width / 2;
-        const cy = 40;
+        const cy = 100;
+        tick += 0.016;
 
         spots.forEach(s => {
-          s.angle += s.speed * 0.012;
+          s.angle += s.speed * 0.013;
           const x = cx + Math.cos(s.angle) * s.radius;
-          const y = cy + Math.sin(s.angle) * s.radius * 0.55;
-          if (x < -20 || x > canvas.width + 20 || y < -20 || y > canvas.height + 20) return;
+          const y = cy + Math.sin(s.angle) * s.radius * 0.5;
+          if (x < -30 || x > canvas.width + 30 || y < -30 || y > canvas.height + 30) return;
+
+          const pulse = 0.6 + 0.4 * Math.sin(tick * s.pulseSpeed * 60 + s.pulseOffset);
+          const alpha = s.baseOpacity * pulse;
 
           ctx.save();
-          ctx.globalAlpha = s.opacity;
+          ctx.globalAlpha = alpha;
           ctx.shadowColor = s.color;
-          ctx.shadowBlur  = 18;
+          ctx.shadowBlur  = 28 + 14 * pulse;
           ctx.fillStyle   = s.color;
           ctx.beginPath();
-          ctx.rect(x - s.size / 2, y - s.size / 2, s.size, s.size);
+          if (s.isCircle) {
+            ctx.arc(x, y, s.size / 2, 0, Math.PI * 2);
+          } else {
+            ctx.rect(x - s.size / 2, y - s.size / 2, s.size, s.size);
+          }
           ctx.fill();
           ctx.restore();
         });
