@@ -429,26 +429,24 @@
     <div class="rsvp-card">
       <h2>Bist du dabei?</h2>
 
-      <form name="rsvp" id="rsvpForm" method="POST" data-netlify="true">
-        <input type="hidden" name="form-name" value="rsvp">
-
+      <form id="rsvpForm">
         <input class="name-field" type="text" name="name" placeholder="Dein Name" required>
 
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="aura-camp" value="Ich hab Aura und campe." required>
-          <label for="aura-camp">Ich hab Aura und campe.</label>
+          <input type="radio" name="antwort" id="opt1" value="Ich komme und brauche ein Bett" required>
+          <label for="opt1">Ich komme und brauche ein Bett</label>
         </div>
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="aura-will" value="Ich hab Aura und will im Haus schlafen.">
-          <label for="aura-will">Ich hab Aura und will im Haus schlafen.</label>
+          <input type="radio" name="antwort" id="opt2" value="Ich komme und will ein Bett">
+          <label for="opt2">Ich komme und will ein Bett</label>
         </div>
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="aura-muss" value="Ich hab Aura und muss im Haus schlafen.">
-          <label for="aura-muss">Ich hab Aura und muss im Haus schlafen.</label>
+          <input type="radio" name="antwort" id="opt3" value="Ich komme und campe">
+          <label for="opt3">Ich komme und campe</label>
         </div>
         <div class="rsvp-option">
-          <input type="radio" name="antwort" id="loser" value="Ich bin ein Loser.">
-          <label for="loser">Ich bin ein Loser.</label>
+          <input type="radio" name="antwort" id="opt4" value="Ich bin ein Loser.">
+          <label for="opt4">Ich bin ein Loser.</label>
         </div>
 
         <p class="rsvp-deadline">
@@ -583,18 +581,22 @@
       });
     })();
 
+    // ✏️ EDIT: paste your Apps Script Web App URL here
+    const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
     document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = new FormData(this);
-      const isLoser = formData.get('antwort') === 'Ich bin ein Loser.';
-      const body = new URLSearchParams(formData).toString();
-      try {
-        await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body
-        });
-      } catch(_) {}
+      const name    = formData.get('name').trim();
+      const antwort = formData.get('antwort');
+      const isLoser = antwort === 'Ich bin ein Loser.';
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, antwort, timestamp: new Date().toISOString() })
+      }).catch(() => {});
 
       this.style.display = 'none';
 
