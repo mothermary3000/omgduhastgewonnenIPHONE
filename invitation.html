@@ -453,6 +453,23 @@
           <label for="opt4">Ich bin ein Loser.</label>
         </div>
 
+        <div class="rsvp-option">
+          <input type="radio" name="antwort" id="opt5" value="mfg-biete">
+          <label for="opt5">Ich komme mit dem Auto und habe Plätze frei</label>
+        </div>
+        <div class="mfg-fields" id="fields-opt5" style="display:none; padding: 0.5rem 0 0.5rem 1.8rem; display:none;">
+          <input class="name-field" style="margin-bottom:0.5rem" type="text" id="mfg-von" placeholder="Von wo? (Stadt)">
+          <input class="name-field" style="margin-bottom:0" type="number" id="mfg-plaetze" placeholder="Wie viele Plätze frei?" min="1" max="9">
+        </div>
+
+        <div class="rsvp-option">
+          <input type="radio" name="antwort" id="opt6" value="mfg-suche">
+          <label for="opt6">Ich komme aus … und brauche eine Mitfahrgelegenheit</label>
+        </div>
+        <div class="mfg-fields" id="fields-opt6" style="display:none;">
+          <input class="name-field" style="margin-bottom:0" type="text" id="mfg-von2" placeholder="Von wo? (Stadt)">
+        </div>
+
         <p class="rsvp-deadline">
           Sag uns bis zum <strong>01. Juli</strong> Bescheid.<br>
           Kinder, Alte und Leute die das besonders brauchen haben beim Schlafplatz natürlich Vorrang.
@@ -588,12 +605,32 @@
     // ✏️ EDIT: paste your Apps Script Web App URL here
     const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
 
+    // Show/hide carpool fields when those options are selected
+    document.querySelectorAll('input[name="antwort"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.getElementById('fields-opt5').style.display = 'none';
+        document.getElementById('fields-opt6').style.display = 'none';
+        if (radio.value === 'mfg-biete') document.getElementById('fields-opt5').style.display = 'block';
+        if (radio.value === 'mfg-suche') document.getElementById('fields-opt6').style.display = 'block';
+      });
+    });
+
     document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = new FormData(this);
       const name    = formData.get('name').trim();
-      const antwort = formData.get('antwort');
-      const isLoser = antwort === 'Ich bin ein Loser.';
+      const raw     = formData.get('antwort');
+      const isLoser = raw === 'Ich bin ein Loser.';
+
+      let antwort = raw;
+      if (raw === 'mfg-biete') {
+        const von     = document.getElementById('mfg-von').value.trim();
+        const plaetze = document.getElementById('mfg-plaetze').value.trim();
+        antwort = `Biete Mitfahrt ab ${von || '?'} (${plaetze || '?'} Plätze frei)`;
+      } else if (raw === 'mfg-suche') {
+        const von = document.getElementById('mfg-von2').value.trim();
+        antwort = `Suche Mitfahrt ab ${von || '?'}`;
+      }
 
       fetch(APPS_SCRIPT_URL, {
         method: 'POST',
