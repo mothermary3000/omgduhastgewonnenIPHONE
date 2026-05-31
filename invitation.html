@@ -364,7 +364,12 @@
       .detail-value { font-size: 0.95rem; }
       .kiss-emoji { font-size: 6rem; }
       .kiss-thanks { font-size: 1.4rem; }
-      .name-field { font-size: 0.95rem; }
+      /* 1rem = 16px prevents iOS from auto-zooming into inputs */
+      .name-field { font-size: 1rem; }
+      .rsvp-option { padding: 0.9rem 0; }
+      .rsvp-option input[type="radio"],
+      .rsvp-option input[type="checkbox"] { width: 22px; height: 22px; }
+      .submit-btn { padding: 1.1rem 1.5rem; font-size: 1.05rem; }
     }
   </style>
 </head>

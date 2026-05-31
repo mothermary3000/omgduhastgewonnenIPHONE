@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "/Users/mariesigmund/miniconda3/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "3456", "--directory", "/Users/mariesigmund/Desktop/Privat/omgduhastgewonnenIPHONE"],
+      "port": 3456,
+      "openFile": "index.html"
+    }
+  ]
+}
