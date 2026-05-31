@@ -390,9 +390,11 @@
     <div class="divider"></div>
 
     <div class="text-block">
-      Das wollen wir mit dir im Hause Gottes feiern. Das Fest ist von Samstag bis Sonntag &mdash; du kannst aber auch gerne schon am Freitag anreisen.<br><br>
-      Im Haus gibt es 30 Schlafplätze in verschiedenen Konstellationen, man kann aber auch super zelten und im Auto schlafen.<br><br>
-      Alle weiteren Infos kommen etwas zeitiger vor dem Fest &mdash; für die Planung ist erstmal wichtig, wer dabei ist. Aber ihr kennt uns: es wird witzig.
+      <strong>Einladung zum Geburtstag</strong><br><br>
+      Wir hatten Geburtstag und wollen das mit dir im Hause Gottes feiern. Das Fest ist von Samstag bis Sonntag &mdash; du kannst aber auch gerne schon am Freitag anreisen. Wir sind in der Mecklenburgischen Seenplatte und es ist wunderschön und gibt viele Seen in der Nähe.<br><br>
+      Im Haus gibt es 30 Schlafplätze in verschiedenen Konstellationen, man kann aber auch super zelten und im Auto schlafen. Bitte gib unten deine Präferenz an und dann schauen wir, ob es passt.<br><br>
+      <strong>Zur Anreise:</strong> Von Hamburg kann man in 2h nach Bützow fahren und von Berlin 2h nach Güstrow, von da sind es dann nochmal 20&ndash;30 Minuten mit dem Auto. Man kommt auch mit Öffis hin, das dauert dann ein bisschen länger. Wir werden versuchen, vor allem für die weiter Angereisten zu organisieren, dass man an den Bahnhöfen eingesammelt wird &mdash; deswegen gerne einmal angeben, ob ihr Autopläze habt oder braucht.<br><br>
+      Alle weiteren Infos kommen etwas zeitiger vor dem Fest, wir machen dann auch mit allen Zusagen eine WhatsApp Gruppe. Für die Planung ist erstmal wichtig, wer dabei ist. Aber ihr kennt uns: es wird witzig.
     </div>
 
     <div class="card">
@@ -403,7 +405,7 @@
         <div>
           <div class="detail-label">Wann</div>
           <div class="detail-value"><strong>18.&ndash;20. September</strong></div>
-          <div class="detail-note">Fest am 19.09. &mdash; Anreise Freitag ab x Uhr möglich</div>
+          <div class="detail-note">Pflichtprogramm 19. tagsüber und abends</div>
         </div>
       </div>
 
@@ -411,8 +413,7 @@
         <div class="detail-icon">&#128205;</div>
         <div>
           <div class="detail-label">Wo</div>
-          <div class="detail-value"><strong>Pfarrhaus Kirchkogel</strong></div>
-          <div class="detail-note">Adresse folgt</div>
+          <div class="detail-value"><a href="https://share.google/EgBFjSuhn3JGx8J2I" target="_blank" style="color:#7d0038; text-decoration:none;"><strong>Pfarrhaus Kirchkogel ↗</strong></a></div>
         </div>
       </div>
 
@@ -453,21 +454,24 @@
           <label for="opt4">Ich bin ein Loser.</label>
         </div>
 
-        <div class="rsvp-option">
-          <input type="radio" name="antwort" id="opt5" value="mfg-biete">
-          <label for="opt5">Ich komme mit dem Auto und habe Plätze frei</label>
+        <div style="height:1px; background:rgba(180,60,100,0.18); margin:0.5rem 0;"></div>
+        <p style="font-size:0.78rem; color:#7d0038; font-weight:bold; text-transform:uppercase; letter-spacing:0.1em; margin:0.8rem 0 0.5rem;">Mitfahrgelegenheit (optional)</p>
+
+        <div class="rsvp-option" style="border-bottom:none; padding:0.4rem 0;">
+          <input type="checkbox" id="chk-biete" style="width:18px;height:18px;accent-color:#7d0038;flex-shrink:0;margin-top:2px;" onchange="toggleMfg()">
+          <label for="chk-biete">Ich biete Mitfahrt an</label>
         </div>
-        <div class="mfg-fields" id="fields-opt5" style="display:none; padding: 0.5rem 0 0.5rem 1.8rem; display:none;">
-          <input class="name-field" style="margin-bottom:0.5rem" type="text" id="mfg-von" placeholder="Von wo? (Stadt)">
+        <div id="fields-biete" style="display:none; padding:0.4rem 0 0.4rem 1.6rem;">
+          <input class="name-field" style="margin-bottom:0.5rem" type="text" id="mfg-von" placeholder="Von wo? (Stadt / Bahnhof)">
           <input class="name-field" style="margin-bottom:0" type="number" id="mfg-plaetze" placeholder="Wie viele Plätze frei?" min="1" max="9">
         </div>
 
-        <div class="rsvp-option">
-          <input type="radio" name="antwort" id="opt6" value="mfg-suche">
-          <label for="opt6">Ich komme aus … und brauche eine Mitfahrgelegenheit</label>
+        <div class="rsvp-option" style="border-bottom:none; padding:0.4rem 0;">
+          <input type="checkbox" id="chk-suche" style="width:18px;height:18px;accent-color:#7d0038;flex-shrink:0;margin-top:2px;" onchange="toggleMfg()">
+          <label for="chk-suche">Ich suche eine Mitfahrgelegenheit</label>
         </div>
-        <div class="mfg-fields" id="fields-opt6" style="display:none;">
-          <input class="name-field" style="margin-bottom:0" type="text" id="mfg-von2" placeholder="Von wo? (Stadt)">
+        <div id="fields-suche" style="display:none; padding:0.4rem 0 0.4rem 1.6rem;">
+          <input class="name-field" style="margin-bottom:0" type="text" id="mfg-von2" placeholder="Von wo? (Stadt / Bahnhof)">
         </div>
 
         <p class="rsvp-deadline">
@@ -605,38 +609,27 @@
     // ✏️ EDIT: paste your Apps Script Web App URL here
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDrbBWRHIE7EIxjUUMqfZb2OLY8HhTq6TKtoO5R7amrfj_5S0kthkLhZ9EppvLJ2UO/exec';
 
-    // Show/hide carpool fields when those options are selected
-    document.querySelectorAll('input[name="antwort"]').forEach(radio => {
-      radio.addEventListener('change', () => {
-        document.getElementById('fields-opt5').style.display = 'none';
-        document.getElementById('fields-opt6').style.display = 'none';
-        if (radio.value === 'mfg-biete') document.getElementById('fields-opt5').style.display = 'block';
-        if (radio.value === 'mfg-suche') document.getElementById('fields-opt6').style.display = 'block';
-      });
-    });
+    function toggleMfg() {
+      document.getElementById('fields-biete').style.display = document.getElementById('chk-biete').checked ? 'block' : 'none';
+      document.getElementById('fields-suche').style.display = document.getElementById('chk-suche').checked ? 'block' : 'none';
+    }
 
     document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = new FormData(this);
       const name    = formData.get('name').trim();
-      const raw     = formData.get('antwort');
-      const isLoser = raw === 'Ich bin ein Loser.';
+      const antwort = formData.get('antwort');
+      const isLoser = antwort === 'Ich bin ein Loser.';
 
-      let antwort = raw;
-      if (raw === 'mfg-biete') {
-        const von     = document.getElementById('mfg-von').value.trim();
-        const plaetze = document.getElementById('mfg-plaetze').value.trim();
-        antwort = `Biete Mitfahrt ab ${von || '?'} (${plaetze || '?'} Plätze frei)`;
-      } else if (raw === 'mfg-suche') {
-        const von = document.getElementById('mfg-von2').value.trim();
-        antwort = `Suche Mitfahrt ab ${von || '?'}`;
-      }
+      const mfgBieteVon     = document.getElementById('chk-biete').checked ? document.getElementById('mfg-von').value.trim()    : '';
+      const mfgBietePlaetze = document.getElementById('chk-biete').checked ? document.getElementById('mfg-plaetze').value.trim() : '';
+      const mfgSucheVon     = document.getElementById('chk-suche').checked ? document.getElementById('mfg-von2').value.trim()    : '';
 
       fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, antwort, timestamp: new Date().toISOString() })
+        body: JSON.stringify({ name, antwort, mfgBieteVon, mfgBietePlaetze, mfgSucheVon, timestamp: new Date().toISOString() })
       }).catch(() => {});
 
       this.style.display = 'none';
