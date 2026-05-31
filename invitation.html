@@ -429,6 +429,10 @@
     <div class="rsvp-card">
       <h2>Bist du dabei?</h2>
 
+      <p id="rsvpDone" style="display:none; font-size:0.85rem; color:#7a3050; text-align:center;">
+        Eintrag gespeichert. Um ihn zu ändern, lade die Seite neu.
+      </p>
+
       <form id="rsvpForm">
         <input class="name-field" type="text" name="name" placeholder="Dein Name" required>
 
@@ -605,7 +609,10 @@
       document.getElementById('cryState').style.display  = isLoser ? 'flex' : 'none';
       overlay.classList.add('show');
 
-      setTimeout(() => { overlay.classList.remove('show'); }, 3000);
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        document.getElementById('rsvpDone').style.display = 'block';
+      }, 3000);
     });
   </script>
 </body>
