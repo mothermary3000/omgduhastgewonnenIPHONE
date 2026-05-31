@@ -12,7 +12,6 @@
       background: #0a0a12;
       font-family: 'Comic Sans MS', 'Comic Sans', cursive;
       color: #333;
-      overflow-x: hidden;
     }
 
     /* ---- Disco canvas ---- */
@@ -163,7 +162,8 @@
       z-index: 1;
       max-width: 640px;
       margin: 0 auto;
-      padding: 2rem 1.5rem 5rem;
+      padding: 2rem 1rem 5rem;
+      overflow-x: hidden;
       animation: fadeUp 0.7s ease both;
     }
 
@@ -353,6 +353,18 @@
       font-size: 0.8rem;
       color: #ccc;
       margin-top: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      .disco-ball, .disco-container { width: 150px; height: 150px; }
+      .disco-num { font-size: 2.4rem; }
+      .disco-names { font-size: 0.95rem; }
+      .card, .text-block, .rsvp-card { padding: 1.2rem; border-radius: 1rem; }
+      .text-block { font-size: 0.95rem; }
+      .detail-value { font-size: 0.95rem; }
+      .kiss-emoji { font-size: 6rem; }
+      .kiss-thanks { font-size: 1.4rem; }
+      .name-field { font-size: 0.95rem; }
     }
   </style>
 </head>
