@@ -60,15 +60,25 @@
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.head.appendChild(tag);
-    let player;
+    let player, btnTimer;
+    function showBtn() {
+      const btn = document.getElementById('cta');
+      if (btn.style.display !== 'inline-block') {
+        btn.style.display = 'inline-block';
+      }
+    }
     window.onYouTubeIframeAPIReady = function() {
       player = new YT.Player('ytPlayer', {
         videoId: VIDEO_ID,
         playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, controls: 1 },
         events: {
           onStateChange: function(e) {
+            if (e.data === YT.PlayerState.PLAYING && !btnTimer) {
+              btnTimer = setTimeout(showBtn, 20000); // show after 20s of playback
+            }
             if (e.data === YT.PlayerState.ENDED) {
-              document.getElementById('cta').style.display = 'inline-block';
+              clearTimeout(btnTimer);
+              showBtn();
             }
           }
         }
