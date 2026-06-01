@@ -74,7 +74,7 @@
         events: {
           onStateChange: function(e) {
             if (e.data === YT.PlayerState.PLAYING && !btnTimer) {
-              btnTimer = setTimeout(showBtn, 20000); // show after 20s of playback
+              btnTimer = setTimeout(showBtn, 13000); // show after 13s of playback
             }
             if (e.data === YT.PlayerState.ENDED) {
               clearTimeout(btnTimer);
