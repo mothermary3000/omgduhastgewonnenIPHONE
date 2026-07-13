@@ -161,9 +161,9 @@
     .page {
       position: relative;
       z-index: 1;
-      max-width: 640px;
+      max-width: 760px;
       margin: 0 auto;
-      padding: 2rem 1rem 5rem;
+      padding: 2rem 1.5rem 5rem;
       overflow-x: hidden;
       animation: fadeUp 0.7s ease both;
     }
@@ -191,7 +191,7 @@
     }
 
     /* ---- Details card ---- */
-    .card { padding: 2rem; }
+    .card { padding: 2rem 2.4rem; }
 
     .card-title {
       font-size: 0.72rem;
@@ -252,14 +252,47 @@
 
     /* ---- Text block ---- */
     .text-block {
-      padding: 1.8rem 2rem;
+      padding: 2rem 2.4rem;
       font-size: 1.05rem;
       line-height: 1.75;
       color: #1a0010;
     }
 
+    .text-block h1 {
+      font-size: 1.5rem;
+      color: #7d0038;
+      margin-bottom: 1.2rem;
+    }
+
+    .text-block h2 {
+      font-size: 1.1rem;
+      color: #7d0038;
+      margin: 1.8rem 0 0.9rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(180,60,100,0.18);
+    }
+
+    .text-block p {
+      margin-bottom: 1.1rem;
+    }
+    .text-block p:last-child { margin-bottom: 0; }
+
+    .text-block .lead {
+      margin-bottom: 1.4rem;
+    }
+
+    .text-block .highlight {
+      display: block;
+      margin: 1.4rem 0;
+      padding: 0.9rem 1.1rem;
+      background: rgba(255,255,255,0.4);
+      border-left: 3px solid #7d0038;
+      border-radius: 0 0.6rem 0.6rem 0;
+      font-size: 0.98rem;
+    }
+
     /* ---- RSVP card ---- */
-    .rsvp-card { padding: 2rem; }
+    .rsvp-card { padding: 2rem 2.4rem; }
 
     .rsvp-card h2 {
       font-size: 1.2rem;
@@ -362,6 +395,8 @@
       .disco-names { font-size: 0.95rem; }
       .card, .text-block, .rsvp-card { padding: 1.2rem; border-radius: 1rem; }
       .text-block { font-size: 0.95rem; }
+      .text-block h1 { font-size: 1.25rem; }
+      .text-block h2 { font-size: 1rem; }
       .detail-value { font-size: 0.95rem; }
       .kiss-emoji { font-size: 6rem; }
       .kiss-thanks { font-size: 1.4rem; }
@@ -408,49 +443,26 @@
     <div class="divider"></div>
 
     <div class="text-block">
-      <h1>Einladung zum Geburtstag</h1><br><br>
-    
-      Wir hatten Geburtstag und wollen das mit dir im Hause Gottes feiern. Das Fest ist von Samstag bis Sonntag, du kannst aber auch gerne schon am Freitag anreisen. Wir sind in der Mecklenburgischen Seenplatte und es ist wunderschön – außerdem gibt es viele Seen in der Nähe.<br><br>
-    
-      Im Haus gibt es 30 Schlafplätze in verschiedenen Konstellationen. Man kann aber auch super zelten oder im Auto schlafen. Bitte gib unten deine Präferenz an, dann schauen wir, wie es am besten passt.<br><br>
-    
-      <h2 style="margin:1.8rem 0 1rem; color:#7d0038;">Anreise</h2>
-    
-      <p>
-        🚗 <strong>Mit dem Auto:</strong> Von Berlin oder Hamburg braucht ihr etwa
-        <strong>2 Stunden</strong> bis zum Pfarrhaus.
-      </p>
-    
-      <p>
-        🚆 <strong>Mit der Bahn:</strong> Fahrt am besten bis
-        <strong>Güstrow</strong> (von Berlin oder Hamburg kommt ihr mit dem Regio
-        dorthin). Am Freitag fährt außerdem <strong>um 16:05 Uhr</strong> noch ein
-        Bus von Güstrow nach Kirch Kogel – wenn ihr den erwischt, ist das natürlich der Hammer.
-      </p>
-    
-      <p>
-        Für alle, die später anreisen, organisieren wir Abholungen ab Güstrow.
-        Wenn ihr euch mit anderen abstimmen könnt und ungefähr zur gleichen Zeit
-        in Güstrow ankommt, wäre das super – dann müssen wir nicht so oft
-        hin- und herfahren und ihr müsst nicht so lange warten. Win-win! 🙌
-      </p>
-    
-      <p>
-        Vielleicht ergeben sich ja auch ein paar Fahrgemeinschaften ab Berlin oder
-        Hamburg. Falls ihr euch noch unsicher seid, bucht erst einmal eure
-        Zugverbindung bis in eine der beiden Städte. Den letzten Teil der Anreise
-        bekommen wir auf jeden Fall gemeinsam organisiert.
-      </p>
-    
-      <p>
-        ❗🚙 <strong>Habt ihr Zugriff auf ein Auto?</strong> Das wäre der Hammer!
-        So können wir Fahrgemeinschaften bilden und möglichst viele Gäste
-        mitnehmen.
-      </p>
-    
-      <br>
-    
-      Alle weiteren Infos kommen etwas zeitiger vor dem Fest. Mit allen Zusagen erstellen wir dann eine WhatsApp-Gruppe. Für die Planung ist jetzt erst einmal wichtig, wer dabei ist. Aber ihr kennt uns: Es wird witzig.
+      <h1>Einladung zum Geburtstag</h1>
+
+      <p class="lead">Wir hatten Geburtstag und wollen das mit dir im Hause Gottes feiern. Das Fest ist von Samstag bis Sonntag, du kannst aber auch gerne schon am Freitag anreisen. Wir sind in der Mecklenburgischen Seenplatte und es ist wunderschön – außerdem gibt es viele Seen in der Nähe.</p>
+
+      <p>Im Haus gibt es 30 Schlafplätze in verschiedenen Konstellationen. Man kann aber auch super zelten oder im Auto schlafen. Bitte gib unten deine Präferenz an, dann schauen wir, wie es am besten passt.</p>
+
+      <h2>Anreise</h2>
+
+      <p><strong>🚗 Auto 🚗:</strong> Von Berlin oder Hamburg braucht ihr etwa <strong>2 Stunden</strong> bis zum Pfarrhaus.</p>
+
+      <p><strong>🚆 Bahn 🚆:</strong> Fahrt am besten bis <strong>Güstrow</strong> (von Berlin oder Hamburg kommt ihr mit dem Regio dorthin). Am Freitag fährt außerdem <strong>um 16:05 Uhr</strong> noch ein Bus von Güstrow nach Kirch Kogel, wenn ihr den erwischt, ist das natürlich der Hammer.</p>
+
+      <p>Für alle, die später anreisen, organisieren wir Abholungen ab Güstrow. Wenn ihr euch mit anderen abstimmen könnt und ungefähr zur gleichen Zeit in Güstrow ankommt, wäre das super, dann müssen wir nicht so oft hin- und herfahren und ihr müsst nicht so lange warten. WIN WIN WIN!</p>
+
+      <p>Falls ihr euch noch unsicher seid, bucht erst einmal eine Zugverbindung bis nach Hamburg oder Berlin. Den letzten Teil der Anreise bekommen wir auf jeden Fall irgendwie hin.</p>
+
+      <span class="highlight">❗🚙 <strong>Habt ihr Zugriff auf ein Auto?</strong> JUHUUU!!! MITBRINGEN!!!</span>
+
+      <p>Wir erstellen demnächst eine WhatsApp-Gruppe, um alles weitere zu koordinieren. Wir freuen uns schon riesig!!!</p>
+
     </div>
 
     <div class="card">
